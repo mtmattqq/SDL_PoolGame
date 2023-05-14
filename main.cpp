@@ -1,12 +1,13 @@
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+// #include <SDL2/SDL_image.h>
+// #include <SDL2/SDL_ttf.h>
 // #include <SDL2/SDL_mixer.h>
 #include <iostream>
 #include <vector>
 #include <ctime>
 #include <cmath>
 #include <stdlib.h>
+#include <a.h>
 
 const int SCREEN_WIDTH=1280;
 const int SCREEN_HEIGHT=720;
@@ -23,11 +24,11 @@ int main(int argc, char *argv[]){
     SDL_Surface* screen=NULL;
 
     // Initialize SDL  初始化SDL視訊子系統
-    if(SDL_Init(SDL_INIT_EVERYTHING)<0){
+    if(SDL_Init(SDL_INIT_VIDEO)<0){
         std::cout<<"SDL could not initialize! SDL_Error: "<<SDL_GetError()<<"\n";
         return 0;
     }
-    IMG_Init(IMG_INIT_PNG);
+    // IMG_Init(IMG_INIT_PNG);
 
     // 
     SDL_Renderer *renderer=SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
