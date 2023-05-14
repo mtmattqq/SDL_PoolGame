@@ -1,25 +1,50 @@
-#include<SDL2/SDL.h>
-#include<bits/stdc++.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+// #include <SDL2/SDL_mixer.h>
+#include <iostream>
+#include <vector>
+#include <ctime>
+#include <cmath>
+#include <stdlib.h>
 
 const int SCREEN_WIDTH=1280;
 const int SCREEN_HEIGHT=720;
+
+void GameLoop(){
+    ;
+}
 
 int main(int argc, char *argv[]){
     // The window we'll be rendering to
     SDL_Window* window=NULL;
 
     // The surface contained by the window
-    SDL_Surface* screenSurface=NULL;
+    SDL_Surface* screen=NULL;
 
-    //Initialize SDL  初始化SDL視訊子系統
+    // Initialize SDL  初始化SDL視訊子系統
     if(SDL_Init(SDL_INIT_EVERYTHING)<0){
         std::cout<<"SDL could not initialize! SDL_Error: "<<SDL_GetError()<<"\n";
         return 0;
     }
+    IMG_Init(IMG_INIT_PNG);
+
+    // 
+    SDL_Renderer *renderer=SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if(renderer==nullptr){
+        SDL_DestroyWindow(window);
+        return 1;
+    }
 
     
+    SDL_Texture* texture=SDL_CreateTextureFromSurface(renderer, screen);
+    if (texture == NULL){
+        return 0;
+    }
+    SDL_FreeSurface(screen);
+    
 
-    //Create window  建立視窗
+    // Create window  建立視窗
 	window = SDL_CreateWindow(
         "Hello SDL",            // 視窗標題
 		SDL_WINDOWPOS_UNDEFINED,// 視窗位置設定
@@ -34,22 +59,27 @@ int main(int argc, char *argv[]){
 		return 0;
 	}
 
-    //Get window surface
-	screenSurface=SDL_GetWindowSurface(window);
+    GameLoop();
 
-	//Fill the surface green
-	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0x00, 0xff, 0x00));
-
-	//Update the surface
-	SDL_UpdateWindowSurface(window);
-
-	//Wait two seconds 延時2000毫秒
-	SDL_Delay(2000);
-
-	//Destroy window
-	SDL_DestroyWindow(window);
-
-	//Quit SDL subsystems
-	SDL_Quit();
+    // Clear the renderer with the current drawing color
+    SDL_RenderClear(renderer);
+    
+    // Create a rectangle
+    SDL_Rect rect = { 100, 100, 200, 200 };
+    
+    // Draw the rectangle on the renderer
+    SDL_RenderFillRect(renderer, &rect);
+    
+    // Update the renderer
+    SDL_RenderPresent(renderer);
+    
+    // Wait for 5 seconds
+    SDL_Delay(5000);
+    
+    // Clean up
+    SDL_DestroyTexture(texture);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
     return 0;
 }
